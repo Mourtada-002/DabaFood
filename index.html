@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="DabaFood — Restaurant ivoirien haut de gamme. Cuisine authentique, cadre élégant, à Abidjan."
+    />
+    <title>DabaFood — Cuisine ivoirienne d’exception</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        if (localStorage.getItem("dabafood-theme") !== "light") {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Manrope", "system-ui", "sans-serif"],
+              display: ["Cormorant Garamond", "Georgia", "serif"],
+            },
+            colors: {
+              daba: {
+                cream: "#F5F0E8",
+                sand: "#E8DFD3",
+                ink: "#1A1A1A",
+                warm: "#C2410C",
+                gold: "#D97706",
+              },
+            },
+            transitionDuration: { DEFAULT: "300ms" },
+          },
+        },
+      };
+    </script>
+    <style>
+      html {
+        transition: background-color 0.45s ease, color 0.45s ease;
+      }
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(1.25rem);
+        transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .fade-in-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body
+    class="font-sans antialiased bg-daba-cream text-daba-ink transition-colors duration-300 dark:bg-neutral-950 dark:text-neutral-100"
+  >
+    <!-- Navbar -->
+    <header
+      class="sticky top-0 z-50 border-b border-black/5 bg-daba-cream/90 backdrop-blur-md transition-colors dark:border-white/10 dark:bg-neutral-950/90"
+    >
+      <nav
+        class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-4 sm:px-8 lg:px-10"
+        aria-label="Principale"
+      >
+        <a href="#accueil" class="group flex items-baseline gap-1">
+          <span
+            class="font-display text-2xl font-semibold tracking-tight text-daba-ink transition group-hover:text-orange-700 dark:text-white dark:group-hover:text-amber-400 sm:text-[1.65rem]"
+            >Daba</span
+          >
+          <span
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-700/90 dark:text-amber-500/90"
+            >Food</span
+          >
+        </a>
+
+        <div
+          id="nav-links"
+          class="absolute left-0 right-0 top-full z-40 hidden flex-col gap-0 border-b border-black/5 bg-daba-cream px-5 py-4 shadow-md dark:border-white/10 dark:bg-neutral-950 md:static md:flex md:flex-row md:items-center md:border-0 md:bg-transparent md:p-0 md:shadow-none"
+        >
+          <a
+            href="#accueil"
+            class="rounded-xl px-4 py-3 text-sm font-medium text-neutral-700 transition hover:bg-black/5 hover:text-daba-ink dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white md:py-2"
+            >Accueil</a
+          >
+          <a
+            href="#menu"
+            class="rounded-xl px-4 py-3 text-sm font-medium text-neutral-700 transition hover:bg-black/5 hover:text-daba-ink dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white md:py-2"
+            >Menu</a
+          >
+          <a
+            href="#apropos"
+            class="rounded-xl px-4 py-3 text-sm font-medium text-neutral-700 transition hover:bg-black/5 hover:text-daba-ink dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white md:py-2"
+            >À propos</a
+          >
+          <a
+            href="#contact"
+            class="rounded-xl px-4 py-3 text-sm font-medium text-neutral-700 transition hover:bg-black/5 hover:text-daba-ink dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white md:py-2"
+            >Contact</a
+          >
+        </div>
+
+        <div class="flex shrink-0 items-center gap-2">
+          <button
+            type="button"
+            id="theme-toggle"
+            aria-label="Basculer le thème clair ou sombre"
+            class="flex h-10 w-10 items-center justify-center rounded-xl border border-black/10 bg-white/80 text-neutral-700 shadow-sm transition hover:border-orange-600/40 hover:text-orange-700 dark:border-white/10 dark:bg-neutral-900 dark:text-amber-400 dark:hover:border-amber-500/50"
+          >
+            <svg class="hidden h-[18px] w-[18px] dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="h-[18px] w-[18px] dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            id="menu-toggle"
+            class="flex h-10 w-10 items-center justify-center rounded-xl border border-black/10 text-daba-ink transition hover:bg-black/5 md:hidden dark:border-white/10 dark:text-white dark:hover:bg-white/5"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+          >
+            <svg class="h-5 w-5 menu-icon-open" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg class="hidden h-5 w-5 menu-icon-close" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section id="accueil" class="overflow-hidden border-b border-black/5 dark:border-white/5">
+        <div class="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:gap-12 sm:px-8 sm:py-20 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-10 lg:py-24">
+          <div class="order-2 lg:order-1 fade-in-up" data-animate>
+            <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-orange-700 dark:text-amber-500">
+              Abidjan · Cuisine ivoirienne
+            </p>
+            <h1 class="font-display text-4xl font-semibold leading-[1.12] tracking-tight text-daba-ink dark:text-white sm:text-5xl lg:text-[3.25rem]">
+              Découvrez la richesse de la cuisine ivoirienne
+            </h1>
+            <p class="mt-6 max-w-xl text-base font-light leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
+              Une table où se rencontrent terroir, savoir-faire familial et exigence contemporaine. Chaque plat
+              raconte une histoire — la vôtre commence ici.
+            </p>
+            <div class="mt-10 flex flex-wrap items-center gap-4">
+              <a
+                href="#contact"
+                class="inline-flex items-center justify-center rounded-xl bg-daba-ink px-8 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-orange-800 hover:shadow-lg dark:bg-white dark:text-neutral-950 dark:hover:bg-amber-100"
+              >
+                Réserver une table
+              </a>
+              <a
+                href="#menu"
+                class="inline-flex items-center justify-center rounded-xl border border-black/15 bg-white/60 px-8 py-3.5 text-sm font-semibold text-daba-ink transition hover:border-orange-600/50 hover:bg-white dark:border-white/15 dark:bg-neutral-900 dark:text-white dark:hover:border-amber-500/40 dark:hover:bg-neutral-800"
+              >
+                Voir le menu
+              </a>
+            </div>
+          </div>
+          <div class="order-1 lg:order-2 fade-in-up" data-animate>
+            <div class="relative mx-auto max-w-lg lg:max-w-none">
+              <div
+                class="absolute -inset-3 rounded-2xl bg-gradient-to-br from-amber-200/40 via-orange-200/20 to-transparent blur-2xl dark:from-amber-900/20 dark:via-orange-900/10 dark:to-transparent"
+                aria-hidden="true"
+              ></div>
+              <figure class="relative overflow-hidden rounded-2xl shadow-md ring-1 ring-black/5 dark:ring-white/10">
+                <img
+                  src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=1200&q=85"
+                  alt="Assiette gastronomique — poisson grillé et accompagnements"
+                  width="1200"
+                  height="900"
+                  class="aspect-[4/3] w-full object-cover transition duration-700 hover:scale-[1.02]"
+                  loading="eager"
+                />
+                <figcaption
+                  class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent px-6 pb-5 pt-16 text-sm font-medium text-white/95"
+                >
+                  Signature maison · Produits frais du jour
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Menu -->
+      <section id="menu" class="border-b border-black/5 py-20 dark:border-white/5 sm:py-24">
+        <div class="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
+          <header class="mx-auto mb-14 max-w-2xl text-center fade-in-up" data-animate>
+            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-orange-700 dark:text-amber-500">Carte</p>
+            <h2 class="mt-3 font-display text-3xl font-semibold tracking-tight text-daba-ink dark:text-white sm:text-4xl">
+              Nos spécialités
+            </h2>
+            <p class="mt-4 text-neutral-600 dark:text-neutral-400">
+              Des classiques de Côte d’Ivoire, dressés avec le soin d’une table gastronomique.
+            </p>
+          </header>
+
+          <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <article
+              class="group flex flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-white/10 dark:bg-neutral-900 fade-in-up"
+              data-animate
+            >
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=85"
+                  alt="Attiéké poisson"
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="font-display text-xl font-semibold text-daba-ink dark:text-white">Attiéké poisson</h3>
+                  <span class="shrink-0 text-sm font-semibold text-orange-700 dark:text-amber-400">18 000 FCFA</span>
+                </div>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  Attiéké fermenté maison, poisson braisé aux épices douces, oignons frais et sauce moyo.
+                </p>
+              </div>
+            </article>
+
+            <article
+              class="group flex flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-white/10 dark:bg-neutral-900 fade-in-up"
+              data-animate
+            >
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src="https://media-cdn.tripadvisor.com/media/photo-s/1c/b3/a8/d0/2-pb-poulet-braise-alocko.jpg"
+                  alt="Attiéké poisson"
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="font-display text-xl font-semibold text-daba-ink dark:text-white">Alloco poulet</h3>
+                  <span class="shrink-0 text-sm font-semibold text-orange-700 dark:text-amber-400">12 500 FCFA</span>
+                </div>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  Bananes plantains dorées, poulet mariné grillé, piment léger et salade croquante.
+                </p>
+              </div>
+            </article>
+
+            <article
+              class="group flex flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-white/10 dark:bg-neutral-900 fade-in-up"
+              data-animate
+            >
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=85"
+                  alt="Garba"
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="font-display text-xl font-semibold text-daba-ink dark:text-white">Garba</h3>
+                  <span class="shrink-0 text-sm font-semibold text-orange-700 dark:text-amber-400">8 000 FCFA</span>
+                </div>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  Attiéké tiède, thon frit croustillant, oignons marinés — l’essence de la street food, version DabaFood.
+                </p>
+              </div>
+            </article>
+
+            <article
+              class="group flex flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-white/10 dark:bg-neutral-900 fade-in-up"
+              data-animate
+            >
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=900&q=85"
+                  alt="Kedjenou"
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="font-display text-xl font-semibold text-daba-ink dark:text-white">Kedjenou</h3>
+                  <span class="shrink-0 text-sm font-semibold text-orange-700 dark:text-amber-400">22 000 FCFA</span>
+                </div>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  Volaille mijotée en cocotte, légumes du marché, épices discrètes — moelleux et parfumé.
+                </p>
+              </div>
+            </article>
+
+            <article
+              class="group flex flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-white/10 dark:bg-neutral-900 fade-in-up"
+              data-animate
+            >
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=900&q=85"
+                  alt="Poulet braisé"
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="font-display text-xl font-semibold text-daba-ink dark:text-white">Poulet braisé</h3>
+                  <span class="shrink-0 text-sm font-semibold text-orange-700 dark:text-amber-400">16 000 FCFA</span>
+                </div>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  Braisé au feu de bois, peau caramélisée, alloco ou attiéké au choix, sauce secrète maison.
+                </p>
+              </div>
+            </article>
+
+            <article
+              class="group flex flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-white/10 dark:bg-neutral-900 fade-in-up"
+              data-animate
+            >
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                src="https://www.mesjusdefruits.fr/wp-content/uploads/2022/03/1.png"
+                alt="Attiéké poisson"
+                class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="font-display text-xl font-semibold text-daba-ink dark:text-white">Jus locaux</h3>
+                  <span class="shrink-0 text-sm font-semibold text-orange-700 dark:text-amber-400">3 500 FCFA</span>
+                </div>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  Bissap, gingembre, tamarin, passion — pressés le matin, servis bien frais.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- À propos -->
+      <section id="apropos" class="border-b border-black/5 bg-white/60 py-20 dark:border-white/5 dark:bg-neutral-900/40 sm:py-24">
+        <div class="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
+          <div class="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+            <div class="fade-in-up" data-animate>
+              <p class="text-xs font-semibold uppercase tracking-[0.28em] text-orange-700 dark:text-amber-500">Notre maison</p>
+              <h2 class="mt-3 font-display text-3xl font-semibold tracking-tight text-daba-ink dark:text-white sm:text-4xl">
+                L’authenticité, sans concession sur l’élégance
+              </h2>
+              <div class="mt-8 space-y-5 text-neutral-600 dark:text-neutral-400">
+                <p class="leading-relaxed">
+                  DabaFood est né d’une conviction simple : la cuisine de Côte d’Ivoire mérite le même écrin que les
+                  grandes tables du monde. Derrière chaque recette transmise par les aînés, nous ajoutons une exigence
+                  contemporaine — produits sourcés avec soin, cuissons précises, présentation épurée.
+                </p>
+                <p class="leading-relaxed">
+                  Ici, la <strong class="font-medium text-daba-ink dark:text-white">tradition</strong> nourrit
+                  l’innovation : nos équipes honorent les gestes du marché et du foyer, tout en cultivant une
+                  <strong class="font-medium text-daba-ink dark:text-white">modernité</strong> discrète dans le service
+                  et l’ambiance. Chaleur ivoirienne, cadre feutré : vous êtes chez vous, en version premium.
+                </p>
+              </div>
+              <dl class="mt-10 grid gap-6 sm:grid-cols-3">
+                <div class="rounded-xl border border-black/5 bg-daba-cream/80 p-5 dark:border-white/10 dark:bg-neutral-950/60">
+                  <dt class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-amber-500">Qualité</dt>
+                  <dd class="mt-2 text-sm text-neutral-600 dark:text-neutral-400">Marchés locaux, saisonnalité, respect du produit.</dd>
+                </div>
+                <div class="rounded-xl border border-black/5 bg-daba-cream/80 p-5 dark:border-white/10 dark:bg-neutral-950/60">
+                  <dt class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-amber-500">Tradition</dt>
+                  <dd class="mt-2 text-sm text-neutral-600 dark:text-neutral-400">Recettes patrimoine, revisitées avec finesse.</dd>
+                </div>
+                <div class="rounded-xl border border-black/5 bg-daba-cream/80 p-5 dark:border-white/10 dark:bg-neutral-950/60 sm:col-span-1">
+                  <dt class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-amber-500">Modernité</dt>
+                  <dd class="mt-2 text-sm text-neutral-600 dark:text-neutral-400">Carte évolutive, accueil attentif, cadre lumineux.</dd>
+                </div>
+              </dl>
+            </div>
+            <div class="fade-in-up" data-animate>
+              <div class="relative">
+                <div class="aspect-[3/4] overflow-hidden rounded-xl shadow-md ring-1 ring-black/5 dark:ring-white/10">
+                  <img
+                    src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=85"
+                    alt="Salle de restaurant élégante"
+                    class="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <p class="mt-6 text-center text-sm italic text-neutral-500 dark:text-neutral-500">
+                  « La générosité d’un repas familial, le raffinement d’une soirée d’exception. »
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Réservation / Contact -->
+      <section id="contact" class="py-20 sm:py-24">
+        <div class="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
+          <header class="mb-12 text-center fade-in-up" data-animate>
+            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-orange-700 dark:text-amber-500">Réservation</p>
+            <h2 class="mt-3 font-display text-3xl font-semibold tracking-tight text-daba-ink dark:text-white sm:text-4xl">
+              Réservez votre table
+            </h2>
+            <p class="mx-auto mt-4 max-w-xl text-neutral-600 dark:text-neutral-400">
+              Indiquez vos souhaits — nous vous recontactons rapidement pour confirmer.
+            </p>
+          </header>
+
+          <div class="grid gap-12 lg:grid-cols-5 lg:gap-16">
+            <form
+              id="contact-form"
+              class="space-y-5 rounded-xl border border-black/5 bg-white p-8 shadow-md dark:border-white/10 dark:bg-neutral-900 lg:col-span-3 fade-in-up"
+              data-animate
+            >
+              <div>
+                <label for="nom" class="mb-2 block text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Nom complet</label>
+                <input
+                  id="nom"
+                  name="nom"
+                  type="text"
+                  required
+                  autocomplete="name"
+                  class="w-full rounded-xl border border-black/10 bg-daba-cream/50 px-4 py-3 text-sm text-daba-ink outline-none transition placeholder:text-neutral-400 focus:border-orange-600/50 focus:ring-2 focus:ring-orange-600/20 dark:border-white/10 dark:bg-neutral-950 dark:text-white dark:focus:border-amber-500/50 dark:focus:ring-amber-500/20"
+                  placeholder="Jean Kouassi"
+                />
+              </div>
+              <div>
+                <label for="telephone" class="mb-2 block text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Téléphone</label>
+                <input
+                  id="telephone"
+                  name="telephone"
+                  type="tel"
+                  required
+                  autocomplete="tel"
+                  class="w-full rounded-xl border border-black/10 bg-daba-cream/50 px-4 py-3 text-sm text-daba-ink outline-none transition placeholder:text-neutral-400 focus:border-orange-600/50 focus:ring-2 focus:ring-orange-600/20 dark:border-white/10 dark:bg-neutral-950 dark:text-white dark:focus:border-amber-500/50 dark:focus:ring-amber-500/20"
+                  placeholder="+225 07 XX XX XX XX"
+                />
+              </div>
+              <div>
+                <label for="message" class="mb-2 block text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="4"
+                  required
+                  class="w-full resize-y rounded-xl border border-black/10 bg-daba-cream/50 px-4 py-3 text-sm text-daba-ink outline-none transition placeholder:text-neutral-400 focus:border-orange-600/50 focus:ring-2 focus:ring-orange-600/20 dark:border-white/10 dark:bg-neutral-950 dark:text-white dark:focus:border-amber-500/50 dark:focus:ring-amber-500/20"
+                  placeholder="Date, heure souhaitée, nombre de convives…"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="w-full rounded-xl bg-daba-ink py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-orange-800 hover:shadow-lg sm:w-auto sm:px-12 dark:bg-white dark:text-neutral-950 dark:hover:bg-amber-100"
+              >
+                Envoyer sur WhatsApp
+              </button>
+              <p class="text-xs text-neutral-500 dark:text-neutral-500">
+                En validant, WhatsApp s’ouvre avec votre message — il vous suffit d’appuyer sur Envoyer dans
+                l’application.
+              </p>
+              <p id="form-feedback" class="hidden text-sm font-medium text-emerald-700 dark:text-emerald-400" role="status"></p>
+            </form>
+
+            <aside class="space-y-8 lg:col-span-2 fade-in-up" data-animate>
+              <div class="rounded-xl border border-black/5 bg-white p-8 shadow-md dark:border-white/10 dark:bg-neutral-900">
+                <h3 class="font-display text-xl font-semibold text-daba-ink dark:text-white">Adresse</h3>
+                <address class="mt-4 not-italic text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  Cocody Riviera Golf<br />
+                  01 BP 1234 Abidjan 01<br />
+                  Côte d’Ivoire
+                </address>
+              </div>
+              <div class="rounded-xl border border-black/5 bg-white p-8 shadow-md dark:border-white/10 dark:bg-neutral-900">
+                <h3 class="font-display text-xl font-semibold text-daba-ink dark:text-white">Horaires</h3>
+                <ul class="mt-4 space-y-3 text-sm text-neutral-600 dark:text-neutral-400">
+                  <li class="flex justify-between gap-4 border-b border-black/5 pb-3 dark:border-white/10">
+                    <span>Mar. — Jeu.</span>
+                    <span class="shrink-0 font-medium text-daba-ink dark:text-white">12h — 15h · 19h — 23h</span>
+                  </li>
+                  <li class="flex justify-between gap-4 border-b border-black/5 pb-3 dark:border-white/10">
+                    <span>Ven. — Sam.</span>
+                    <span class="shrink-0 font-medium text-daba-ink dark:text-white">12h — 15h · 19h — 00h</span>
+                  </li>
+                  <li class="flex justify-between gap-4 pt-1">
+                    <span>Dim. & Lun.</span>
+                    <span class="shrink-0 font-medium text-daba-ink dark:text-white">Fermé</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Suivez-nous</p>
+                <div class="mt-4 flex gap-3">
+                  <a
+                    href="#"
+                    class="flex h-11 w-11 items-center justify-center rounded-xl border border-black/10 bg-white text-neutral-700 transition hover:border-orange-600/40 hover:text-orange-700 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:border-amber-500/40 dark:hover:text-amber-400"
+                    aria-label="Instagram"
+                  >
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex h-11 w-11 items-center justify-center rounded-xl border border-black/10 bg-white text-neutral-700 transition hover:border-orange-600/40 hover:text-orange-700 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:border-amber-500/40 dark:hover:text-amber-400"
+                    aria-label="Facebook"
+                  >
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex h-11 w-11 items-center justify-center rounded-xl border border-black/10 bg-white text-neutral-700 transition hover:border-orange-600/40 hover:text-orange-700 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:border-amber-500/40 dark:hover:text-amber-400"
+                    aria-label="WhatsApp"
+                  >
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  </a>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-black/5 bg-daba-ink text-neutral-300 dark:border-white/10 dark:bg-black">
+      <div class="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
+        <div class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+          <div class="max-w-xs">
+            <p class="font-display text-2xl font-semibold text-white">DabaFood</p>
+            <p class="mt-3 text-sm leading-relaxed text-neutral-400">
+              Restaurant ivoirien — tradition, générosité et excellence du produit.
+            </p>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-neutral-500">Navigation</p>
+            <ul class="mt-4 space-y-2 text-sm">
+              <li><a href="#accueil" class="transition hover:text-white">Accueil</a></li>
+              <li><a href="#menu" class="transition hover:text-white">Menu</a></li>
+              <li><a href="#apropos" class="transition hover:text-white">À propos</a></li>
+              <li><a href="#contact" class="transition hover:text-white">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-neutral-500">Réseaux</p>
+            <div class="mt-4 flex gap-3">
+              <a href="#" class="text-neutral-400 transition hover:text-amber-400" aria-label="Instagram">
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </a>
+              <a href="#" class="text-neutral-400 transition hover:text-amber-400" aria-label="Facebook">
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              <a href="#" class="text-neutral-400 transition hover:text-amber-400" aria-label="WhatsApp">
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <p class="mt-12 border-t border-white/10 pt-8 text-center text-xs text-neutral-500">
+          © <span id="year"></span> DabaFood. Tous droits réservés.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        /** Numéro WhatsApp du restaurant : indicatif pays + numéro, chiffres uniquement (ex. 2250712345678 pour la CI). */
+        var DABAFOOD_WHATSAPP = "2250719076206";
+
+        var html = document.documentElement;
+        var STORAGE = "dabafood-theme";
+
+        document.getElementById("theme-toggle").addEventListener("click", function () {
+          var dark = html.classList.toggle("dark");
+          localStorage.setItem(STORAGE, dark ? "dark" : "light");
+        });
+
+        var menuBtn = document.getElementById("menu-toggle");
+        var nav = document.getElementById("nav-links");
+        var openI = menuBtn.querySelector(".menu-icon-open");
+        var closeI = menuBtn.querySelector(".menu-icon-close");
+
+        menuBtn.addEventListener("click", function () {
+          var nowOpen = !nav.classList.toggle("hidden");
+          menuBtn.setAttribute("aria-expanded", nowOpen);
+          menuBtn.setAttribute("aria-label", nowOpen ? "Fermer le menu" : "Ouvrir le menu");
+          openI.classList.toggle("hidden", nowOpen);
+          closeI.classList.toggle("hidden", !nowOpen);
+        });
+
+        nav.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            if (window.matchMedia("(max-width: 767px)").matches) {
+              nav.classList.add("hidden");
+              menuBtn.setAttribute("aria-expanded", "false");
+              openI.classList.remove("hidden");
+              closeI.classList.add("hidden");
+            }
+          });
+        });
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        document.getElementById("contact-form").addEventListener("submit", function (e) {
+          e.preventDefault();
+          var digits = String(DABAFOOD_WHATSAPP).replace(/\D/g, "");
+          if (!digits || digits.length < 10) {
+            alert(
+              "Configurez le numéro WhatsApp du restaurant dans index.html (variable DABAFOOD_WHATSAPP)."
+            );
+            return;
+          }
+          var nom = document.getElementById("nom").value.trim();
+          var tel = document.getElementById("telephone").value.trim();
+          var message = document.getElementById("message").value.trim();
+          var text =
+            "*Réservation — DabaFood*\n\n" +
+            "*Nom :* " +
+            nom +
+            "\n" +
+            "*Téléphone :* " +
+            tel +
+            "\n\n" +
+            "*Message :*\n" +
+            message;
+          var url = "https://wa.me/" + digits + "?text=" + encodeURIComponent(text);
+          window.open(url, "_blank", "noopener,noreferrer");
+          var fb = document.getElementById("form-feedback");
+          fb.textContent =
+            "WhatsApp devrait s’ouvrir dans un nouvel onglet. Si rien ne s’affiche, vérifiez que le numéro est bien configuré.";
+          fb.classList.remove("hidden");
+          this.reset();
+        });
+
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (en) {
+              if (en.isIntersecting) en.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -32px 0px" }
+        );
+        document.querySelectorAll("[data-animate]").forEach(function (el) {
+          io.observe(el);
+        });
+      })();
+    </script>
+  </body>
+</html>
